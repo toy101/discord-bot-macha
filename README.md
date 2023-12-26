@@ -2,7 +2,7 @@
 must have an alpha channel
 
 ## overview
-Discordのテキストチャンネルに貼られた画像が, Xに透過した際に正しく透過画像のままになるかvalidationする
+Discordのテキストチャンネルに貼られた画像が, Xにポストした際に正しく透過画像のままになるかvalidationする
 
 ### 検証条件
 - 添付ファイルがpngであるなら
