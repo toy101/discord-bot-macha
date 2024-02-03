@@ -8,6 +8,7 @@ import numpy as np
 CONTENT_TYPE = 'image/png'
 HEIGHT_SIZE = 900
 WIDTH_SIZE = 900
+BOT_NAME = "macha"
 
 
 class Macha:
@@ -79,3 +80,11 @@ class Macha:
                 valid_msg_buffer.append(valid_msg)
 
         return valid_msg_buffer
+
+    def check_mention_to_me(self, ctx:Message):
+        mentions = ctx.mentions
+        for m in mentions:
+            if BOT_NAME in m.name:
+                return ctx.author.display_name
+
+        return None

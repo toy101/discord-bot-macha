@@ -10,6 +10,7 @@ from macha import Macha
 TOKEN = os.environ["DISCORD_BOT_TOKEN"]
 TARGET_CHANNEL_ID = os.environ["TARGET_CHANNEL_ID"]
 EMOJI_CHECKED = "✅"
+TARGET_MENTION_AUTHOR = ["644188408108941342"]
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -33,6 +34,13 @@ async def on_message(ctx: Message):
     if ctx.author.bot:
         logger.info("this message sent from BOT")
         return 0
+
+    mention_author = macha.check_mention_to_me(ctx)
+    if mention_author:
+        if str(ctx.author.id) in TARGET_MENTION_AUTHOR:
+            await ctx.reply(f"I love you, {mention_author}")
+        else:
+            await ctx.reply(f"Hello, {mention_author}")
 
     if macha.is_target_channel(ctx):
         logger.info("target text channel")
