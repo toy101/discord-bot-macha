@@ -83,6 +83,7 @@ class Macha:
 
     def check_mention_to_me(self, ctx:Message):
         mentions = ctx.mentions
+        mentions += ctx.role_mentions
         for m in mentions:
             if BOT_NAME in m.name:
                 return ctx.author.display_name
