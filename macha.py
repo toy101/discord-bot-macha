@@ -11,9 +11,9 @@ WIDTH_SIZE = 900
 
 
 class Macha:
-    def __init__(self, logger):
+    def __init__(self, target_channel_id, logger):
         self.logger = logger
-        self.target_channel_id = 1189234411913351168
+        self.target_channel_id = int(target_channel_id)
         self.content_type = CONTENT_TYPE
         self.limit_height = HEIGHT_SIZE
         self.limit_width = WIDTH_SIZE
@@ -67,10 +67,15 @@ class Macha:
 
         # アルファchannelが100未満のpixelが存在するか
         img_array = np.array(img)
-        alpha_channel = img_array[:, :, 3] / 255
-        if np.all(alpha_channel >= 1):
+        if img_array.shape[-1] < 4:
             self.logger.info(f"{attachment.filename} has not transparent pixel.")
-            valid_msg = "透明(半透明)のピクセルが見つかりませんでした"
+            valid_msg = "アルファチャンネルが見つかりませんでした"
             valid_msg_buffer.append(valid_msg)
+        else:
+            alpha_channel = img_array[:, :, 3] / 255
+            if np.all(alpha_channel >= 1):
+                self.logger.info(f"{attachment.filename} has not transparent pixel.")
+                valid_msg = "透明(半透明)のピクセルが見つかりませんでした"
+                valid_msg_buffer.append(valid_msg)
 
         return valid_msg_buffer

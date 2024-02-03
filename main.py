@@ -2,11 +2,13 @@ import logging
 import os
 
 import discord
+from discord import Message
 from discord.ext import commands
 
 from macha import Macha
 
 TOKEN = os.environ["DISCORD_BOT_TOKEN"]
+TARGET_CHANNEL_ID = os.environ["TARGET_CHANNEL_ID"]
 EMOJI_CHECKED = "✅"
 
 intents = discord.Intents.default()
@@ -17,7 +19,7 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
-macha = Macha(logger=logger)
+macha = Macha(target_channel_id=TARGET_CHANNEL_ID, logger=logger)
 
 
 @bot.command("ping")
@@ -26,7 +28,11 @@ async def ping(ctx):
 
 
 @bot.listen()
-async def on_message(ctx):
+async def on_message(ctx: Message):
+
+    if ctx.author.bot:
+        logger.info("this message sent from BOT")
+        return 0
 
     if macha.is_target_channel(ctx):
         logger.info("target text channel")
