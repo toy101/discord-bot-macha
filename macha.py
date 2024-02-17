@@ -61,7 +61,7 @@ class Macha:
             valid_msg = f"サイズが少し大きいようです: {attachment.height}px x {attachment.width}px > {self.limit_height}px x {self.limit_width}px"
             valid_msg_buffer.append(valid_msg)
 
-        url = attachment.url.split('?')[0]
+        url = attachment.url
         # urlから画像を取得
         res = requests.get(url)
         img = Image.open(io.BytesIO(res.content))
